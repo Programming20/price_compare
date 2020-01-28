@@ -13,6 +13,7 @@ services:
     environment:
       SECRET_KEY: /run/secrets/django_secret_key
       DEBUG: 'False'
+      DJANGO_SETTINGS_MODULE: 'p20.settings.prod'
     command: sh -c " python p20/manage.py collectstatic --noinput &&
         python p20/manage.py shell &&
         gunicorn p20.wsgi --bind 0.0.0.0:8000 --chdir p20"

@@ -13,19 +13,13 @@ services:
     environment:
       SECRET_KEY: /run/secrets/django_secret_key
       DEBUG: 'True'
-    command: python p20/manage.py runserver 0.0.0.0:8000
+    command: python p20/manage.py runserver 0.0.0.0:8000 --settings=p20.settings.local
     volumes:
       - .:/code
     ports:
       - 8000:8000
     depends_on:
       - db
-  nginx:
-    build: nginx/
-    ports:
-      - 1337:80
-    depends_on:
-      - web
 
 secrets:
     django_secret_key:
