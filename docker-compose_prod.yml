@@ -1,0 +1,37 @@
+version: '3.3'
+
+services:
+  db:
+    user: "1000:1000"
+    image: postgres
+    volumes:
+      - ../postgres-data:/var/lib/postgresql/data
+  web:
+    build: .
+    secrets:
+       - django_secret_key
+    environment:
+      SECRET_KEY: /run/secrets/django_secret_key
+      DEBUG: 'False'
+    command: sh -c " python p20/manage.py collectstatic --noinput &&
+        python p20/manage.py shell &&
+        gunicorn p20.wsgi --bind 0.0.0.0:8000 --chdir p20"
+    volumes:
+      - .:/code
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
+  nginx:
+    build: nginx/
+    volumes:
+      - .:/code
+    ports:
+      - 80:80
+    depends_on:
+      - web
+
+secrets:
+    django_secret_key:
+        file: ../.django_secret.txt
+
