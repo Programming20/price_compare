@@ -12,6 +12,8 @@ services:
        - django_secret_key
     environment:
       SECRET_KEY: /run/secrets/django_secret_key
+      USER: /run/secrets/django_backend_user
+      PASSWORD: /run/secrets/django_backend_password
       DEBUG: 'False'
       DJANGO_SETTINGS_MODULE: 'p20.settings.prod'
     command: sh -c " python p20/manage.py collectstatic --noinput &&
@@ -35,4 +37,8 @@ services:
 secrets:
     django_secret_key:
         file: ../.django_secret.txt
+    django_backend_user:
+	file: ../.django_backend_user.txt
+    django_backend_password:
+	file: ../.django_backend_password.txt
 

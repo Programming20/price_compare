@@ -67,7 +67,7 @@ WSGI_APPLICATION = 'p20.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('NAME', ''),
+        'NAME': 'p20',
         'USER': os.environ.get('USER', ''),
 	'PASSWORD': os.environ.get('PASSWORD', ''),
         'HOST': 'db',
