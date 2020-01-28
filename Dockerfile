@@ -4,5 +4,5 @@ RUN mkdir /code
 WORKDIR /code
 COPY requirements.txt /code/
 RUN pip install -r /code/requirements.txt --src=/usr/local/src
-COPY django_site /code/
+COPY p20 /code/
 RUN echo $(ls)
