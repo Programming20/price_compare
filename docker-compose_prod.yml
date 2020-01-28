@@ -2,17 +2,21 @@ version: '3.3'
 
 services:
   db:
+    build:
+      context: ./Docker
+      dockerfile: db.Dockerfile
     user: "1000:1000"
     image: postgres
     volumes:
       - ../postgres-data:/var/lib/postgresql/data
   web:
-    build: .
+    build:
+      context: ./Docker
+      dockerfile: Dockerfile
     secrets:
        - django_secret_key
     environment:
       SECRET_KEY: /run/secrets/django_secret_key
-      USER: /run/secrets/django_backend_user
       PASSWORD: /run/secrets/django_backend_password
       DEBUG: 'False'
       DJANGO_SETTINGS_MODULE: 'p20.settings.prod'
@@ -36,7 +40,5 @@ services:
 secrets:
     django_secret_key:
         file: ../.django_secret.txt
-    django_backend_user:
-        file: ../.django_backend_user.txt
     django_backend_password:
         file: ../.django_backend_password.txt

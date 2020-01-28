@@ -2,25 +2,22 @@ version: '3.3'
 
 services:
   db:
+    build:
+      context: ./Docker
+      dockerfile: db.Dockerfile
     user: "1000:1000"
     image: postgres
     volumes:
       - ../postgres-data:/var/lib/postgresql/data
   web:
     build: .
-    secrets:
-       - django_secret_key
     environment:
-      SECRET_KEY: /run/secrets/django_secret_key
       DEBUG: 'True'
-    command: python p20/manage.py runserver 0.0.0.0:8000 --settings=p20.settings.local
+      DJANGO_SETTINGS_MODULE: 'p20.settings.local'
+    command: python p20/manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/code
     ports:
       - 8000:8000
     depends_on:
       - db
-
-secrets:
-    django_secret_key:
-        file: ../.django_secret.txt
