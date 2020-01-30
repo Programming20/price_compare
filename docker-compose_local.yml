@@ -14,7 +14,10 @@ services:
     environment:
       DEBUG: 'True'
       DJANGO_SETTINGS_MODULE: 'p20.settings.local'
-    command: python p20/manage.py runserver 0.0.0.0:8000
+    command: sh -c "python p20/manage.py migrate && echo \"from django.contrib.auth import get_user_model;
+        print('User already exists') if get_user_model().objects.filter(username='admin') else get_user_model().objects.create_superuser('admin', '', 'pass')\" |
+        python p20/manage.py shell &&
+        python p20/manage.py runserver 0.0.0.0:8000"
     volumes:
       - .:/code
     ports:
