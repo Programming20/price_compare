@@ -11,7 +11,7 @@ fairly simple and manageable.
 
 This local env should be OS agnostic.
 
-### Things to Install (this assume the repo is already cloned)
+### Things to Install (this assumes the repo is already cloned)
 
 first you will need to install python3, docker, and docker-compose.
 
