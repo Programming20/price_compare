@@ -43,6 +43,8 @@ docker-compose_local.yml
 docker-compose -f docker-compose_local.yml -p local up -d --build
 ```
 
+NOTE: for now you NEED to use the --build argument or your new/changed code will not make it into the deploy.
+
 if you need to bring all of the containers down.
 
 ```
