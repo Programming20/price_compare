@@ -3,6 +3,65 @@ This is a project in which you can compare prices of a product from multiple web
 website, we can compare the hotel prices, similarly, we can compare the prices of a product on websites like Amazon,
 Snapdeal, Flipkart, etc and display the best offers.
 
+## Local Python Environment
+
+### pip and requirements.txt
+
+In this project you will find a file at the root directory called requirements.txt. This file controls the packages
+that are installed in every environment (including prod). This requirements file can also be installed on your local
+environments, but first you need a virtual environment.
+
+#### Anaconda or miniconda
+
+For some clarity Python is Python Anaconda and miniconda do not change that, what they do is manage your python
+environment and help manage your packages.
+
+https://docs.conda.io/en/latest/miniconda.html (A trimmed version of anaconda without the data science bloatware)
+https://www.anaconda.com/distribution (the most popular python platform primarily used for data science)
+
+```
+conda create -n django_p20 python=3.7
+```
+
+and activate with
+
+```
+conda activate django_p20
+```
+
+#### virtualenv
+
+Tried and True old fashion way.
+
+```
+python -m pip install virtualenv
+# The second argument is the location to create the virtual environment. Generally, you can just create this in your
+# project and call it env. But be sure if you are creating a venv in your project that you add it to your .gitignore if
+# it is already not there.
+python -m venv env
+```
+
+and activate with
+
+```
+source env/bin/activate
+```
+
+Of course both of these means have many many more features, you are all welcome to explore on your own.
+
+#### requirements.txt
+
+You can install the projects requirements after you activate your virtual environments, these virtual environments
+insulate the default installed python environment with a "clone" so to speak. When you activate this new virtual
+environment you have a clean slate to install just what the project needs.
+
+```
+pip install -r requirements.txt
+```
+
+This is done automatically when the django env is built and started in docker, but if you are running an IDE to work on
+the code you will want these requirements installed so the IDE picks them up and does not complain.
+
 ## Local Setup
 
 In order to create content you obviously need to run things locally to validate various things. This is also commonly
@@ -11,7 +70,7 @@ fairly simple and manageable.
 
 This local env should be OS agnostic.
 
-### Things to Install (this assume the repo is already cloned)
+### Things to Install (this assumes the repo is already cloned)
 
 first you will need to install python3, docker, and docker-compose.
 
@@ -42,6 +101,8 @@ docker-compose_local.yml
 ```
 docker-compose -f docker-compose_local.yml -p local up -d --build
 ```
+
+NOTE: for now you NEED to use the --build argument or your new/changed code will not make it into the deploy.
 
 if you need to bring all of the containers down.
 
@@ -86,3 +147,36 @@ If you are at this point on your local computer open you favorite browser and na
 `http://<your_ip>:8000`
 
 you should see the congratulations banner.
+
+## Contributing
+
+### Keeping the root files consistent
+
+#### requirements.txt
+
+In order to keep git conflicts from multiple contributors for the requirements.txt (which can see some good traffic)
+only ever update the requirements.txt with a `pip freeze` for example.
+
+```
+$ cd price_compare/
+$ ll
+
+Docker
+README.md
+docker-compose_local.yml
+docker-compose_prod.yml
+nginx
+p20
+requirements.txt
+
+$ pip freeze > requirements-devel.txt
+$ diff requirements.txt requirements-devel.txt
+```
+
+At this point if you see your difference is your valid updates then.
+
+```
+$ mv requirements-devel.txt requirements.txt
+& git commit -a -m "update to requirements.txt for requests library version"
+...
+```
