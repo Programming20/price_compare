@@ -1,7 +1,7 @@
 asgiref==3.2.3
 certifi==2019.9.11
 chardet==3.0.4
-Django==3.0.2
+Django==3.1.9
 django-maintenance-mode==0.13.3
 idna==2.8
 psycopg2-binary==2.8.4
